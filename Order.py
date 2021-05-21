@@ -6,30 +6,34 @@ images = ('.jpg','.png','.jpeg','.gif')
 video = ('.wmv','.avi','.mp4','.wmv','.mov','.mkv')
 text = ('.doc','.docx','.pdf','.txt')
 compressed = ('.rar','.zip')
-
+dot = images + video + text + compressed
 def organize(file,ext):
-    for order in images:
-        folderCreation('Images')
-        if ext == order:
-            shutil.move(downloads_path+file,downloads_path+'/Images/'+file)
-    for order in video:
-        folderCreation('Videos')
-        if ext == order:
-            shutil.move(downloads_path+file,downloads_path+'/Videos/'+file)
-    for order in compressed:
-        folderCreation('Compressed')
-        if ext == order:
-            shutil.move(downloads_path+file,downloads_path+'/Compressed/'+file)
-    for order in text:
-        folderCreation('TextFiles')
-        if ext == order:
-            shutil.move(downloads_path+file,downloads_path+'/TextFiles/'+file)
+    if ext in (dot):
+        for order in images:
+            folderCreation('Images')
+            if ext == order:
+                shutil.move(downloads_path+file,downloads_path+'/Images/'+file)
+        for order in video:
+            folderCreation('Videos')
+            if ext == order:
+                shutil.move(downloads_path+file,downloads_path+'/Videos/'+file)
+        for order in compressed:
+            folderCreation('Compressed')
+            if ext == order:
+                shutil.move(downloads_path+file,downloads_path+'/Compressed/'+file)
+        for order in text:
+            folderCreation('TextFiles')
+            if ext == order:
+                shutil.move(downloads_path+file,downloads_path+'/TextFiles/'+file)
 
+    else:
+        if os.path.isfile(downloads_path+file):
+            folderCreation('Others')
+            shutil.move(downloads_path+file,downloads_path+'/Others/'+file)
     if ext =="":
         if not os.path.isdir(downloads_path+file):
             folderCreation('Others')
             shutil.move(downloads_path+file,downloads_path+'/Others/'+file)
-
 
 def folderCreation(FolderName):
     folderName = FolderName
@@ -42,6 +46,7 @@ def main():
     for fileX in os.listdir(downloads_path):
         name, ext = os.path.splitext(fileX)
         organize(fileX,ext)
+        print(downloads_path+'/'+fileX +' has been moved correctly!')
     print('-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*')
     print('All files were organized correctly.!')
 
