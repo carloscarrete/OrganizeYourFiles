@@ -20,6 +20,11 @@ def organize(file,ext):
             shutil.move(downloads_path+file,'/home/carlos/Desktop/'+file)
 
 
+def folderCreation(FolderName):
+    folderName = FolderName
+    if not os.path.exists(folderName):
+        os.mkdir(downloads_path+'/'+folderName)
+        print(folderName + ' has been created!')
 
 for fileX in os.listdir(downloads_path):
     name, ext = os.path.splitext(fileX)
