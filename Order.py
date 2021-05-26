@@ -1,17 +1,11 @@
-import os, shutil, sys, getopt, itertools
+import os, shutil, sys, getopt, time, colorama
+from colorama import Fore
 
 downloads_path = None
-'''
-images = ('.jpg','.png','.jpeg','.gif')
-video = ('.wmv','.avi','.mp4','.wmv','.mov','.mkv')
-text = ('.doc','.docx','.pdf','.txt')
-compressed = ('.rar','.zip')
-dot = images + video + text + compressed
-'''
-extensions = [('.jpg','.png','.jpeg','.gif'),
-        ('.wmv','.avi','.mp4','.wmv','.mov','.mkv'),
-        ('.doc','.docx','.pdf','.txt'),
-        ('.rar','.zip')]
+extensions = [('.jpg','.png','.jpeg','.gif'),                               #Images
+        ('.wmv','.avi','.mp4','.wmv','.mov','.mkv'),                        #Video
+        ('.doc','.docx','.pdf','.txt'),                                     #Text Files
+        ('.rar','.zip')]                                                    #Compressed Files
 extComp = [item for ext in extensions for item in ext]
 
 def organize(file,ext):
@@ -26,9 +20,9 @@ def organize(file,ext):
             if ext in extensions[1]:
                 shutil.move(downloads_path+file,downloads_path+'/Videos/'+file)
             if ext in extensions[2]:
-                shutil.move(downloads_path+file,downloads_path+'/Compressed/'+file)
+                shutil.move(downloads_path+file,downloads_path+'/TextFiles/'+file)      
             if ext in extensions[3]:
-                shutil.move(downloads_path+file,downloads_path+'/TextFiles/'+file)
+                shutil.move(downloads_path+file,downloads_path+'/Compressed/'+file)
             return
     else:
         if os.path.isfile(downloads_path+file) and not os.path.isdir(downloads_path+file):
@@ -59,9 +53,26 @@ def checkArgvs():
             downloads_path='/home/carlos/'
             print('Documents has been established')
         if op in ('-h','--help'):
-            print('Help')
-            
+            help()
+
+
+def help():
+    print('-*-*-*This is a little help for helping how to use this script for organizing your files.-*-*-*')
+    print('In order to use this script its necessary to pass as a parameter what will be the folder to sort the files inside that folder.') 
+    print('By default comes the option to order the Downloads folder and the Home folder (Caution: it is necessary to set your path and user name inside the script, because by default comes mine which is /home/carlos/ and /home/carlos/Downloads, so you will have to configure this to your needs.')
+    print('If you are using Linux you can set up your alias to simplify the way that you use the script')
+    print('//////////////////////////////////////////////////')
+    print('So, the first step after once you have configured your folders to organize, you must type in the terminal like this:')
+    print(Fore.CYAN +'* python Order.py -d ag1')
+    print(Fore.RESET +'Where python: Order.py is the script')
+    print(Fore.CYAN +'* -d is the argv for directory')
+    print('* agv1 is the name of folder that is goig to organize, in my case in the script i got dow for downloads and doc for documents/home')
+    print(Fore.RESET +'So....if you wanna order the Downloads folder, you must type:')
+    print('python Order.py -d dow')
+    print('And that way, the script starting to organize all files in that folder')
+    print('//////////////////////////////////////////////////')     
 def main():
+    start = time.time()
     checkArgvs()
     if downloads_path != None:
         for fileX in os.listdir(downloads_path):
@@ -72,6 +83,8 @@ def main():
         print('-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*')
         print('All files were organized correctly.!')
         print('New Version')
+        end = time.time()
+        print('Final time: ', (end-start))
 
 
 if __name__=='__main__':
