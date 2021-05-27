@@ -2,10 +2,11 @@ import os, shutil, sys, getopt, time, colorama
 from colorama import Fore
 
 downloads_path = None
-extensions = [('.jpg','.png','.jpeg','.gif'),                               #Images
-        ('.wmv','.avi','.mp4','.wmv','.mov','.mkv'),                        #Video
-        ('.doc','.docx','.pdf','.txt'),                                     #Text Files
-        ('.rar','.zip')]                                                    #Compressed Files
+extensions = [('.jpg','.png','.jpeg','.gif', '.bmp', '.pict', '.psd','.tif'),   #Images
+        ('.wmv','.avi','.mp4','.wmv','.mov','.mkv', '.mpg'),                    #Video
+        ('.doc','.docx','.pdf','.txt','.rtf','.wpd','.wps'),                    #Text Files
+        ('.rar','.zip','.tar'),                                                 #Compressed Files
+        ('.aac', '.au', '.mid', '.mp3', '.ra', '.snd', '.wma', '.wav')]         #Audio                                         
 extComp = [item for ext in extensions for item in ext]
 
 def organize(file,ext):
@@ -15,6 +16,7 @@ def organize(file,ext):
             folderCreation('Videos')
             folderCreation('Compressed')
             folderCreation('TextFiles')
+            folderCreation('Audio')
             if ext in extensions[0]:
                 shutil.move(downloads_path+file,downloads_path+'/Images/'+file)
             if ext in extensions[1]:
@@ -23,6 +25,8 @@ def organize(file,ext):
                 shutil.move(downloads_path+file,downloads_path+'/TextFiles/'+file)      
             if ext in extensions[3]:
                 shutil.move(downloads_path+file,downloads_path+'/Compressed/'+file)
+            if ext in extensions[4]:
+                shutil.move(downloads_path+file,downloads_path+'/Audio/'+file)
             return
     else:
         if os.path.isfile(downloads_path+file) and not os.path.isdir(downloads_path+file):
